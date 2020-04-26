@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">871049492443-glb22ufvq8akrpqebfcp79umimfq9qqe.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://mafianewfirebase.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">871049492443</string>
+    <string name="google_api_key" translatable="false">AIzaSyDZR8Y-kPhaX-k9WnUfjDp5KVQOJ5pLPj0</string>
+    <string name="google_app_id" translatable="false">1:871049492443:android:454bd5acefca28131bd9fe</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDZR8Y-kPhaX-k9WnUfjDp5KVQOJ5pLPj0</string>
+    <string name="google_storage_bucket" translatable="false">mafianewfirebase.appspot.com</string>
+    <string name="project_id" translatable="false">mafianewfirebase</string>
+</resources>
