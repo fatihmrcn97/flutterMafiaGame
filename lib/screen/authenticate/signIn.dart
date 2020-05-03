@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mafia/services/auth.dart';
+import 'package:mafia/shared/constants.dart';
+import 'package:mafia/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -10,6 +12,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  bool loading = false;
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
@@ -20,7 +23,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() :Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
@@ -46,6 +49,7 @@ class _SignInState extends State<SignIn> {
                 height: 20,
               ),
               TextFormField(
+                 decoration:textInputDecoration.copyWith(hintText: 'Email'),
                 validator: (val) => val.isEmpty ? 'Enter an email' : null,
                 onChanged: (val) {
                   setState(() {
@@ -57,6 +61,7 @@ class _SignInState extends State<SignIn> {
                 height: 20,
               ),
               TextFormField(
+                 decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 obscureText: true,
                 validator: (val) =>
                     val.length < 6 ? 'Enter password at least 6 chars' : null,
@@ -72,10 +77,14 @@ class _SignInState extends State<SignIn> {
               RaisedButton(
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
+                    setState(() {
+                      loading = true;
+                    });
                     dynamic result = await _auth.loginWithEmailandPass(email, password);
                     if(result == null){
                       setState(() {
                         error = 'Couldn sign in with those credentials';
+                        loading = false;
                       });
                     }
                   }

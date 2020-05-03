@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mafia/services/auth.dart';
+import 'package:mafia/shared/constants.dart';
+import 'package:mafia/shared/loading.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -11,7 +13,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
-
+    bool loading = false;
   final AuthService _auth = AuthService();
   String email = '';
   String password = '';
@@ -19,7 +21,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
@@ -45,6 +47,7 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               TextFormField(
+                decoration:textInputDecoration.copyWith(hintText: 'Email'),
                 validator: (val) => val.isEmpty ? 'Enter an email' : null,
                 onChanged: (val) {
                   setState(() {
@@ -56,6 +59,7 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 validator: (val) =>
                     val.length < 6 ? 'Enter password at least 6 chars' : null,
                 obscureText: true,
@@ -71,11 +75,15 @@ class _RegisterState extends State<Register> {
               RaisedButton(
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
+                    setState(() {
+                      loading = true;
+                    });
                     dynamic result =
                         await _auth.registerWithEmailandPass(email, password);
                     if (result == null) {
                       setState(() {
                         error = 'Please supply a valid email';
+                        loading = false;
                       });
                     }
                   }

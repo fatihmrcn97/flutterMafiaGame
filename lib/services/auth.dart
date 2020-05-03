@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mafia/models/user.dart';
+import 'package:mafia/services/database.dart';
 
 class AuthService{
 
@@ -50,6 +51,8 @@ class AuthService{
     try{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
+      // Create a new document user for the user with uid
+      await DatabaseService(uid: user.uid).updateUserData('New Mafia', 10, 20);
       return _userFromFirebase(user);      
     }catch(e){
       print(e.toString());
